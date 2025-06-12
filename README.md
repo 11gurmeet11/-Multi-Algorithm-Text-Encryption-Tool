@@ -2,7 +2,6 @@
 
 A modern web-based encryption tool that lets you encrypt and decrypt text using **AES**, **DES**, and **RSA** algorithms. Built with **HTML**, **CSS**, and **JavaScript**, this tool is perfect for students, cybersecurity enthusiasts, and anyone learning about cryptography.
 
-![UI Screenshot](screenshot.png)
 
 ---
 
@@ -31,7 +30,7 @@ A modern web-based encryption tool that lets you encrypt and decrypt text using 
 
 | AES Encryption | DES Encryption | RSA Encryption |
 |----------------|----------------|----------------|
-| ![AES](screenshots/aes.png) | ![DES](screenshots/des.png) | ![RSA](screenshots/rsa.png) |
+| ![AES](screenshots/AES.jpeg) | ![DES](screenshots/DES.jpeg) | ![RSA](screenshots/RSA.jpeg) |
 
 ---
 
