@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Multi-Algorithm Encryption Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsencrypt@3.0.0-rc.1/bin/jsencrypt.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #2c3e50, #34495e);
+      color: white;
+      padding: 20px;
+    }
+    .container {
+      max-width: 850px;
+      margin: auto;
+      background: #1e272e;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    h2 {
+      text-align: center;
+      color: #00e5ff;
+    }
+    .tabs {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+    .tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      background: #2f3640;
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.3s;
+    }
+    .tab.active {
+      background: #34495e;
+      border-bottom: 3px solid #00e5ff;
+    }
+    .section {
+      display: none;
+    }
+    .section.active {
+      display: block;
+    }
+    textarea, input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      font-size: 16px;
+      border: none;
+    }
+    button {
+      width: 48%;
+      padding: 10px;
+      background: #00e5ff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px 1%;
+    }
+    button:hover {
+      background: #00bcd4;
+    }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h2>🔐 Multi-Algorithm Encryption Tool (AES, DES, RSA)</h2>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('aes')">AES</div>
+    <div class="tab" onclick="switchTab('des')">DES</div>
+    <div class="tab" onclick="switchTab('rsa')">RSA</div>
+  </div>
+
+  <!-- AES Section -->
+  <div id="aes" class="section active">
+    <label>Enter Text:</label>
+    <textarea id="aesText">hello</textarea>
+
+    <label>Password:</label>
+    <input type="text" id="aesKey" placeholder="AES Key">
+
+    <div class="row">
+      <button onclick="encryptAES()">Encrypt</button>
+      <button onclick="decryptAES()">Decrypt</button>
+    </div>
+
+    <label>Result:</label>
+    <textarea id="aesResult" readonly></textarea>
+  </div>
+
+  <!-- DES Section -->
+  <div id="des" class="section">
+    <label>Enter Text:</label>
+    <textarea id="desText">hello</textarea>
+
+    <label>Password:</label>
+    <input type="text" id="desKey" placeholder="DES Key">
+
+    <div class="row">
+      <button onclick="encryptDES()">Encrypt</button>
+      <button onclick="decryptDES()">Decrypt</button>
+    </div>
+
+    <label>Result:</label>
+    <textarea id="desResult" readonly></textarea>
+  </div>
+
+  <!-- RSA Section -->
+  <div id="rsa" class="section">
+    <label>Enter Text:</label>
+    <textarea id="rsaText">hello</textarea>
+
+    <label>Encrypted Text:</label>
+    <textarea id="rsaEncrypted"></textarea>
+
+    <label>Public Key:</label>
+    <textarea id="rsaPublicKey"></textarea>
+
+    <label>Private Key:</label>
+    <textarea id="rsaPrivateKey"></textarea>
+
+    <div class="row">
+      <button onclick="generateRSA()">Generate Keys</button>
+      <button onclick="encryptRSA()">Encrypt</button>
+      <button onclick="decryptRSA()">Decrypt</button>
+    </div>
+
+    <label>Result:</label>
+    <textarea id="rsaResult" readonly></textarea>
+  </div>
+</div>
+
+<script>
+  const rsa = new JSEncrypt({ default_key_size: 2048 });
+
+  function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    event.target.classList.add('active');
+  }
+
+  // AES
+  function encryptAES() {
+    const text = document.getElementById('aesText').value;
+    const key = document.getElementById('aesKey').value;
+    const encrypted = CryptoJS.AES.encrypt(text, key).toString();
+    document.getElementById('aesResult').value = encrypted;
+  }
+
+  function decryptAES() {
+    const encrypted = document.getElementById('aesText').value;
+    const key = document.getElementById('aesKey').value;
+    const decrypted = CryptoJS.AES.decrypt(encrypted, key).toString(CryptoJS.enc.Utf8);
+    document.getElementById('aesResult').value = decrypted || 'Invalid key or data!';
+  }
+
+  // DES
+  function encryptDES() {
+    const text = document.getElementById('desText').value;
+    const key = document.getElementById('desKey').value;
+    const encrypted = CryptoJS.TripleDES.encrypt(text, key).toString();
+    document.getElementById('desResult').value = encrypted;
+  }
+
+  function decryptDES() {
+    const encrypted = document.getElementById('desText').value;
+    const key = document.getElementById('desKey').value;
+    const decrypted = CryptoJS.TripleDES.decrypt(encrypted, key).toString(CryptoJS.enc.Utf8);
+    document.getElementById('desResult').value = decrypted || 'Invalid key or data!';
+  }
+
+  // RSA
+  function generateRSA() {
+    rsa.getKey();
+    document.getElementById('rsaPublicKey').value = rsa.getPublicKey();
+    document.getElementById('rsaPrivateKey').value = rsa.getPrivateKey();
+    alert("✅ RSA 2048-bit keys generated!");
+  }
+
+  function encryptRSA() {
+    const text = document.getElementById('rsaText').value;
+    const key = document.getElementById('rsaPublicKey').value;
+    rsa.setPublicKey(key);
+    const encrypted = rsa.encrypt(text);
+    document.getElementById('rsaEncrypted').value = encrypted || 'Encryption failed!';
+    document.getElementById('rsaResult').value = '';
+  }
+
+  function decryptRSA() {
+    const encrypted = document.getElementById('rsaEncrypted').value;
+    const key = document.getElementById('rsaPrivateKey').value;
+    rsa.setPrivateKey(key);
+    const decrypted = rsa.decrypt(encrypted);
+    document.getElementById('rsaResult').value = decrypted || '❌ Decryption error!';
+  }
+</script>
+</body>
+</html>
