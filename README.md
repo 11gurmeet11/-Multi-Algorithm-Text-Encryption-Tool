@@ -30,7 +30,7 @@ A modern web-based encryption tool that lets you encrypt and decrypt text using 
 
 | AES Encryption | DES Encryption | RSA Encryption |
 |----------------|----------------|----------------|
-| ![AES](AES.jpeg) | ![DES](DES.jpeg) | ![RSA](RSA.jpeg) |
+| ![AES](AES.jpeg) | ![DES](DES.jpeg) | ![RSA](RES.jpeg) |
 
 ---
 
